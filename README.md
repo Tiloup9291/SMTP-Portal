@@ -46,18 +46,43 @@ make clean
 Example of usage:
 Case of remote MTA server, with remote whitehole, local blackhole and local SMTP client.
 We are using postfix. Be sure to set the /etc/postfix/main.cf setting : relayhost= to the address of the blackhole. (ex. : relayhosts = [127.0.0.3]:25);
-1. Start the whitehole:
+1. Help :
+```
+./Portal --help
+Usage: Portal [OPTION...]
+Portal -- A program to listen to data receive from client and exchange with a
+relay.
+From me, John Doe. ;)
+
+  -b, --bind_addr=BIND_ADDR  Local address to bind the input listener
+  -c, --outbind_addr=OUTBIND_ADDR
+                             remote address to connect to
+  -j, --outlocal_port=OUTLOCAL_PORT
+                             remote port the remote bind address connect to
+  -l, --local_port=LOCAL_PORT   Local port the input bind address listen to
+  -s, --show                 Show license
+  -t, --type=BLACKHOLE[b]/WHITEHOLE[w]
+                             type of this portal
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+
+Report bugs to me, John Doe, you know how! ;).
+```
+3. Start the whitehole:
 ```
 ./Portal -b 192.168.1.25 -l 1002 -j 25 -t w
 ```
-2. Start the blackhole :
+3. Start the blackhole :
 ```
 ./Portal -b 127.0.0.3 -l 25 -c 192.168.2.35 -j 1002 -t b
 ```
-3. Send an email :
+4. Send an email :
 ```
 echo "Test" | mail -s "Test" yourAdress@yourDomain.tld
 ```
-4. Postfix 127.0.0.1:25 will connect to the black hole on 127.0.0.3:25, the blackhole will output on 192.168.2.35:1002. The whitehole will receive data from 192.168.1.25:1002 and output to MTA server on the resolved MX address:25.
-5. Both CLI will output debug message during processing.
-6. You should receive your mail in your mail box.
+5. Postfix 127.0.0.1:25 will connect to the black hole on 127.0.0.3:25, the blackhole will output on 192.168.2.35:1002. The whitehole will receive data from 192.168.1.25:1002 and output to MTA server on the resolved MX address:25.
+6. Both CLI will output debug message during processing.
+7. You should receive your mail in your mail box.
