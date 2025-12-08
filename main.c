@@ -714,7 +714,7 @@ void forward_data_w(int source_sock){
         exit(CLIENT_RESOLVE_ERROR);
     }
 
-    remote_socket = connect_to_remote(mx, 25);
+    remote_socket = connect_to_remote(mx, arguments.outlocal_port);
     if (remote_socket <= 0){
         printMessage("remote connection failed");
         exit(CLIENT_RESOLVE_ERROR);
